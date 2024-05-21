@@ -9,7 +9,7 @@ export default function Home() {
       <Link href="/week-2">
         <span className="text-blue-500 hover:underline">Week 2</span>
       </Link>
-
+      <br/>
       <Link href="/week-3">
         <span className="text-blue-500 hover:underline">Week 3</span>
       </Link>
