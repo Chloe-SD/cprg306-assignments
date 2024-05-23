@@ -4,16 +4,18 @@ import Header from "@/components/header";
 export default function Home() {
   return (
     <main>
-      <div>
-        <Header/>
+      <Header/>
+      <div className="mx-5">
           <h1>CPRG 306: Web Development 2 - Assignments</h1>
           <Link href="/week-2">
-            <span className="text-blue-500 hover:underline">Week 2</span>
+            <button>Week 2</button>
           </Link>
           <br/>
           <Link href="/week-3">
-            <span className="text-blue-500 hover:underline">Week 3</span>
+            <button>Week 3</button>
           </Link>
+          
+          
       </div>
     </main>
 
