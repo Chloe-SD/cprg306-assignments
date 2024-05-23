@@ -17,6 +17,8 @@
 }
 
 body {
+  display: flex;
+  justify-content: center;
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
@@ -31,3 +33,13 @@ body {
     text-wrap: balance;
   }
 }
+
+@layer base {
+  main {
+    @apply
+    h-full
+    w-4/5 
+  }
+}
+
+
