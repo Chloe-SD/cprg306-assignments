@@ -52,18 +52,21 @@ body {
     w-4/5 
     m-2
     rounded-md
-    shadow-lg
+    drop-shadow-lg
     bg-pink-800
     p-2
   }
   button {
     @apply
-    bg-orange-700
-    rounded
-    p-1
+    bg-gradient-to-br from-pink-500 to-orange-400
+    hover:bg-gradient-to-bl
+    rounded-lg
+    px-5
+    py-1
     m-1
     text-white
-    hover:text-blue-500
+
+   
   }
 }
 
