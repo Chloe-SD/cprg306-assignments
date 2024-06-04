@@ -65,8 +65,32 @@ body {
     py-1
     m-1
     text-white
-
-   
+    border-2
+    border-orange-700
+    shadow-sm
+    shadow-yellow-500
+  }
+  input {
+    @apply
+    p-2
+    rounded-lg
+    text-black
+    m-1
+    border-2
+    border-orange-700
+    shadow-sm
+    shadow-yellow-500
+  }
+  select {
+    @apply
+    p-2
+    text-black
+    rounded-lg
+    m-1
+    border-2
+    border-orange-700
+    shadow-sm
+    shadow-yellow-500
   }
 }
 
