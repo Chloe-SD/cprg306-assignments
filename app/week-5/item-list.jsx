@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useState } from 'react';
-import Item from './Item';
+import Item from './item';
 import itemsData from '../../public/items.json';
 
 const ItemsList = () => {
