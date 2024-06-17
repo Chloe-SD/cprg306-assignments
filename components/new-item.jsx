@@ -10,7 +10,7 @@ const NewItem = ({ onAddItem }) => {
     const handleSubmit = (event) => {
         event.preventDefault(); // prevents default form submission behavior
         const item = { name, quantity, category }; // create an item to hold the form inputs
-        if (addItem != null){
+        if (onAddItem != null){
             onAddItem(item);
         } else {
             alert(`You have added the Item:\nName: ${name}\nQuantity: ${quantity}\nCategory: ${category}`); 
