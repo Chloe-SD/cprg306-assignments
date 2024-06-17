@@ -25,6 +25,10 @@ export default function Home() {
             <Link href="/week-5">
               <button>Week 5</button>
             </Link>
+
+            <Link href="/week-6">
+              <button>Week 6</button>
+            </Link>
           </div>
           
       </div>

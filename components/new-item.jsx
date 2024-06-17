@@ -1,7 +1,7 @@
 "use client" // marks file as a client so that useSate can be implemented
 import React, { useState } from 'react'; // allows us to set a state on client side of app
 
-const NewItem = () => {
+const NewItem = ({ onAddItem }) => {
 
     const [name, setName] = useState("");
     const [quantity, setQuantity] = useState(1);
@@ -10,14 +10,18 @@ const NewItem = () => {
     const handleSubmit = (event) => {
         event.preventDefault(); // prevents default form submission behavior
         const item = { name, quantity, category }; // create an item to hold the form inputs
+        if (addItem != null){
+            onAddItem(item);
+        } else {
+            alert(`You have added the Item:\nName: ${name}\nQuantity: ${quantity}\nCategory: ${category}`); 
+        };    
         console.log(item); // write the item to console
-        alert(`You have added the Item:\nName: ${name}\nQuantity: ${quantity}\nCategory: ${category}`);
         setName("");
         setQuantity(1);
         setCategory("produce");
     };
 
-    return <div>
+    return <div className="flex justify-center w-max-content h-max mb-4">
         <form onSubmit={handleSubmit} 
         className='flex-col flex items-center p-4
         bg-gradient-to-br from-blue-700 to-yellow-600 rounded-lg'>
