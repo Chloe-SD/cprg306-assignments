@@ -24,7 +24,9 @@ const NewItem = ({ onAddItem }) => {
     return <div className="flex justify-center w-max-content h-max mb-4">
         <form onSubmit={handleSubmit} 
         className='flex-col flex items-center p-4
-        bg-gradient-to-br from-blue-700 to-yellow-600 rounded-lg'>
+        bg-gradient-to-br from-blue-700 to-yellow-600 rounded-lg
+        border-2 border-pink-700 
+        shadow-lg shadow-purple-500'>
             
             <div className='flex justify-center'>
                 <p className='flex items-center px-5'>Item Name:</p>
