@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Header from "@/components/header";
 
-export default function Home() {
+export default function Page() {
   return (
     <main>
       <Header/>
@@ -32,6 +32,10 @@ export default function Home() {
 
             <Link href="/week-7">
               <button>Week 7</button>
+            </Link>
+
+            <Link href="/week-8">
+              <button>Week 8</button>
             </Link>
           </div>
           
