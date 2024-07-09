@@ -1,7 +1,8 @@
-"use Client"
-
-import { useUserAuth } from './_utils/auth-context';
-
+//Week8/page.js
+"use client"
+import Header from "@/components/header";
+import { useUserAuth } from "./_utils/auth-context";
+import Link from "next/link";
 
 export default function Page() {
   const { user, gitHubSignIn, firebaseSignOut } = useUserAuth();
@@ -15,19 +16,22 @@ export default function Page() {
   };
 
   return (
-    <div>
-      {!user ? (
-        <button onClick={handleSignIn}>Login with GitHub</button>
-      ) : (
-        <>
-          <p>
-            Welcome, {user.displayName} ({user.email})
-          </p>
-          <button onClick={handleSignOut}>Logout</button>
-          //<Link to="/shopping-list">Go to Shopping List</Link>
-        </>
-      )}
-    </div>
+    <main>
+      <Header/>
+      <div>
+        {!user ? (
+          <button onClick={handleSignIn}>Login with GitHub</button>
+        ) : (
+          <>
+            <p>
+              Welcome, {user.displayName} ({user.email})
+            </p>
+            <button onClick={handleSignOut}>Logout</button>
+            <Link href="./week-8/shopping-list"><button>Go to Shopping List</button></Link>
+          </>
+        )}
+      </div>
+    </main>
   );
 };
 
