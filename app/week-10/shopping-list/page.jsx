@@ -1,3 +1,4 @@
+//week-10/shopping-list/page.js
 "use client"
 import React, { useState, useEffect } from "react";
 import Header from "@/components/header";
@@ -5,8 +6,8 @@ import ItemsList from "./item-list";
 import NewItem from "@/components/new-item";
 import MealIdeas from "@/components/meal-ideas";
 import { addItem, getItems } from "../_services/shopping_list_service";
-import { AuthContextProvider } from "../_utils/auth-context";
 import { useUserAuth } from "../_utils/auth-context";
+
 
 
 export default function Page() {
@@ -15,24 +16,21 @@ export default function Page() {
     const [selectedIngredient, setSelectedIngredient] = useState(null);
 
     useEffect(() => {
-      // Fetch items when component mounts
-      const fetchItems = async () => {
-          try {
-              const fetchedItems = await getItems();
-              setItems(fetchedItems);
-          } catch (error) {
-              console.error("Error fetching items: ", error);
-          }
-      };
+      if (!user) return;
 
-      fetchItems();
-    }, []);
+      const unsubscribe = getItems(user.uid, setItems);
+
+      return () => unsubscribe();
+    }, [user]);
 
     const handleAddItem = async (item) => {  // handler function for adding item, passed to NewItem component
+      if (!user) {
+        console.error("User not authenticated");
+        return;
+      }
       try {
-        const itemId = await addItem(item);
-        const newItem = { id: itemId, ...item };
-        setItems([...items, newItem]);
+        const addedItems = await addItem(user.uid, item);
+        console.log("Json response: ", addedItems);
       } catch (error) {
           console.error("Error adding item: ", error);
       }
@@ -61,11 +59,9 @@ export default function Page() {
     }
 
     return (
-      <AuthContextProvider>
-
-      
       <main>
         <Header/>
+        User: {user?.displayName}, {user?.email}
         <h1 className="text-2xl font-semibold flex justify-center mb-4">Shopping List</h1>
         
         
@@ -86,6 +82,6 @@ export default function Page() {
 
         </div>
       </main>
-      </AuthContextProvider>
+      
     );
   }
