@@ -37,6 +37,10 @@ export default function Page() {
             <Link href="/week-8">
               <button>Week 8</button>
             </Link>
+
+            <Link href="/week-10">
+              <button>Week 10</button>
+            </Link>
           </div>
           
       </div>

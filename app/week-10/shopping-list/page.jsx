@@ -1,21 +1,41 @@
 "use client"
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "@/components/header";
 import ItemsList from "./item-list";
 import NewItem from "@/components/new-item";
-import itemsData from "./items.json";
 import MealIdeas from "@/components/meal-ideas";
+import { addItem, getItems } from "../_services/shopping_list_service";
+import { AuthContextProvider } from "../_utils/auth-context";
 import { useUserAuth } from "../_utils/auth-context";
+
 
 export default function Page() {
     const { user, gitHubSignIn, firebaseSignOut } = useUserAuth();
-    const [items, setItems] = useState(itemsData); // a copy of items list from the JSON file
+    const [items, setItems] = useState([]);
     const [selectedIngredient, setSelectedIngredient] = useState(null);
 
-    const addItem = (item) => {  // handler function for adding item, passed to NewItem component
-      const lastId = items.length > 0 ? items[items.length-1].id : 0; // find ID of last item from list
-      const newItem = {...item, id: lastId + 1}; // set ID property of the new item
-      setItems([...items, newItem]); // add new item to the list copy
+    useEffect(() => {
+      // Fetch items when component mounts
+      const fetchItems = async () => {
+          try {
+              const fetchedItems = await getItems();
+              setItems(fetchedItems);
+          } catch (error) {
+              console.error("Error fetching items: ", error);
+          }
+      };
+
+      fetchItems();
+    }, []);
+
+    const handleAddItem = async (item) => {  // handler function for adding item, passed to NewItem component
+      try {
+        const itemId = await addItem(item);
+        const newItem = { id: itemId, ...item };
+        setItems([...items, newItem]);
+      } catch (error) {
+          console.error("Error adding item: ", error);
+      }
     };
 
     const formatItemName = (itemName) => {
@@ -41,6 +61,9 @@ export default function Page() {
     }
 
     return (
+      <AuthContextProvider>
+
+      
       <main>
         <Header/>
         <h1 className="text-2xl font-semibold flex justify-center mb-4">Shopping List</h1>
@@ -49,7 +72,7 @@ export default function Page() {
         <div className="flex flex-wrap justify-center">
 
             <div className="w-2/3">
-                <NewItem onAddItem={addItem}/>
+                <NewItem onAddItem={handleAddItem}/>
                 <ItemsList itemsData={items} onSelectItem={handleSelectItem}/>
             </div>
             <div className="w-1/3">
@@ -63,5 +86,6 @@ export default function Page() {
 
         </div>
       </main>
+      </AuthContextProvider>
     );
   }

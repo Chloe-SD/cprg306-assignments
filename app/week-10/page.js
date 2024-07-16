@@ -15,8 +15,6 @@ export default function Page() {
     firebaseSignOut();
   };
 
-  
-
   return (
     <main>
       <Header/>
@@ -29,7 +27,7 @@ export default function Page() {
               Welcome, {user.displayName} ({user.email})
             </p>
             <button onClick={handleSignOut}>Logout</button>
-            <Link href="./week-8/shopping-list"><button>Go to Shopping List</button></Link>
+            <Link href="./week-10/shopping-list"><button>Go to Shopping List</button></Link>
           </>
         )}
       </div>
