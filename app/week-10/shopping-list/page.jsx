@@ -5,7 +5,7 @@ import Header from "@/components/header";
 import ItemsList from "./item-list";
 import NewItem from "@/components/new-item";
 import MealIdeas from "@/components/meal-ideas";
-import { addItem, getItems } from "../_services/shopping_list_service";
+import { addItem, getItems, deleteItem } from "../_services/shopping_list_service";
 import { useUserAuth } from "../_utils/auth-context";
 
 
@@ -14,6 +14,7 @@ export default function Page() {
     const { user, gitHubSignIn, firebaseSignOut } = useUserAuth();
     const [items, setItems] = useState([]);
     const [selectedIngredient, setSelectedIngredient] = useState(null);
+    
 
     useEffect(() => {
       if (!user) return;
@@ -23,29 +24,34 @@ export default function Page() {
       return () => unsubscribe();
     }, [user]);
 
-    const handleAddItem = async (item) => {  // handler function for adding item, passed to NewItem component
-      if (!user) {
-        console.error("User not authenticated");
-        return;
-      }
+    const handleAddItem = async (item) => { 
       try {
-        const addedItems = await addItem(user.uid, item);
+        const addedItems = await addItem(user.uid, selectedIngredient.id);
         console.log("Json response: ", addedItems);
       } catch (error) {
           console.error("Error adding item: ", error);
       }
     };
 
-    const formatItemName = (itemName) => {
-        return itemName
-            .split(',')[0] // ignore anything after a comma
-            .trim() // ignore whitespace (both sides)
-            .replace(/[^\w\s]/gi, ''); // get rid of anything that is not a word
-    }
+    const handleDelete = async () => {
+      try {
+        await deleteItem(user.uid, selectedIngredient.id);
+        setSelectedIngredient(null); // Clear selection after deletion
+      } catch (error) {
+          console.error("Error deleting item: ", error);
+      }
+    };
+
+    // const formatItemName = (itemName) => {
+    //     return itemName
+    //         .split(',')[0] // ignore anything after a comma
+    //         .trim() // ignore whitespace (both sides)
+    //         .replace(/[^\w\s]/gi, ''); // get rid of anything that is not a word
+    // }
 
     const handleSelectItem = (item) => {
-        const simpleName = formatItemName(item.name);
-        setSelectedIngredient(simpleName);
+        //const simpleName = formatItemName(item.name);
+        setSelectedIngredient({...item});
     };
 
     if (!user) {
@@ -56,7 +62,7 @@ export default function Page() {
         </main>
         
       )
-    }
+    };
 
     return (
       <main>
@@ -72,8 +78,14 @@ export default function Page() {
                 <ItemsList itemsData={items} onSelectItem={handleSelectItem}/>
             </div>
             <div className="w-1/3">
+                
+
                 {selectedIngredient ? (
-                <MealIdeas ingredient={selectedIngredient} />
+                  <div>
+                    <button onClick={handleDelete}>Delete {selectedIngredient.name}</button>
+                    <MealIdeas ingredient={selectedIngredient.name} />
+                    <p>{selectedIngredient.id}</p>
+                  </div>
                 ) : (
                 <p>Please select an item</p>
                 )}

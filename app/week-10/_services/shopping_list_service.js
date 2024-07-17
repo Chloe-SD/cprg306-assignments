@@ -3,11 +3,17 @@ import { db } from "../_utils/firebase";
 import {
     collection,
     addDoc,
+    query,
+    where,
     getDocs,
-    onSnapshot
+    getDoc,
+    doc,
+    updateDoc,
+    deleteDoc,
+    onSnapshot,
   } from "firebase/firestore";
 
-  export const getItems = (userId, callback) => {
+export const getItems = (userId, callback) => {
     const itemsCollection = collection(db, "users", userId, "items");
     return onSnapshot(itemsCollection, (snapshot) => {
         const itemsList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -27,5 +33,16 @@ export const addItem = async (userId, item) => {
     } catch (error) {
         console.error("Error adding document: ", error);
         throw new Error("Failed to add item");
+    }
+};
+
+export const deleteItem = async (userId, itemId) => {
+    try {
+        const docRef = doc(db, "users", userId, "items", itemId);
+        await deleteDoc(docRef);
+
+    } catch (error) {
+        console.error("Error deleting item: ", error);
+        throw new Error("Failed to delete item");
     }
 }
